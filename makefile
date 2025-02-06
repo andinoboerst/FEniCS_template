@@ -7,4 +7,4 @@ build:
 	docker build -t $(project_name) .
 
 run:
-	docker run -it -p 8888:8888 -v $(current_dir)/femin:/app --rm --name $(project_name) $(project_name)
+	docker run -it -p 8888:8888 -v $(current_dir)/$(project_name):/app --rm --name $(project_name) $(project_name)
