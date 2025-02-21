@@ -72,8 +72,8 @@ class FenicsxSimulation(metaclass=abc.ABCMeta):
 
         self.plot_results = {key: [] for key in self._plot_variables().keys()}
 
-    def get_boundary_nodes(self, boundary, sort: bool = False) -> np.array:
-        boundary_nodes = locate_dofs_geometrical(self.V, boundary)
+    def get_nodes(self, marker, sort: bool = False) -> np.array:
+        boundary_nodes = locate_dofs_geometrical(self.V, marker)
 
         if sort:
             boundary_node_coords = np.array([tuple(self.mesh.geometry.x[node]) for node in boundary_nodes], dtype=[('x', float), ('y', float), ('z', float)])
@@ -82,9 +82,9 @@ class FenicsxSimulation(metaclass=abc.ABCMeta):
 
         return boundary_nodes
 
-    def get_boundary_dofs(self, boundary_nodes) -> np.array:
-        boundary_dofs = np.zeros(len(boundary_nodes) * self.dim, dtype=int)
-        for i, node in enumerate(boundary_nodes):
+    def get_dofs(self, nodes) -> np.array:
+        boundary_dofs = np.zeros(len(nodes) * self.dim, dtype=int)
+        for i, node in enumerate(nodes):
             dofs = [node * self.dim, node * self.dim + 1]
             if self.dim == 3:
                 dofs.append(node * self.dim + 2)
