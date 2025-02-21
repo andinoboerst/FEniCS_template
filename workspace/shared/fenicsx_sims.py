@@ -83,14 +83,14 @@ class FenicsxSimulation(metaclass=abc.ABCMeta):
         return boundary_nodes
 
     def get_dofs(self, nodes) -> np.array:
-        boundary_dofs = np.zeros(len(nodes) * self.dim, dtype=int)
+        dofs = np.zeros(len(nodes) * self.dim, dtype=int)
         for i, node in enumerate(nodes):
-            dofs = [node * self.dim, node * self.dim + 1]
+            node_dofs = [node * self.dim, node * self.dim + 1]
             if self.dim == 3:
-                dofs.append(node * self.dim + 2)
-            boundary_dofs[self.dim * i:self.dim * i + self.dim] = dofs
+                node_dofs.append(node * self.dim + 2)
+            dofs[self.dim * i:self.dim * i + self.dim] = node_dofs
 
-        return boundary_dofs
+        return dofs
 
     def _setup_bcs(self) -> None:
         self._setup_dirichlet_bcs()
